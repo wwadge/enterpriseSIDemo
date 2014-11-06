@@ -10,9 +10,11 @@
                   http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
 
-    <int:inbound-channel-adapter ref="someService" method="foo" channel="exampleChannel">
+    <int:inbound-channel-adapter channel="exampleChannel" expression="1+1">
         <int:poller fixed-rate="2000"/>
     </int:inbound-channel-adapter>
+
+
 
     <int:service-activator input-channel="exampleChannel" ref="someService"
                            method="run">

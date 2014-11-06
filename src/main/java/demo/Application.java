@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.PollableChannel;
+import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
 @Configuration
@@ -22,15 +22,13 @@ public class Application {
         log.debug(msg.toString());
 
 
-        PollableChannel channel = new QueueChannel();
-        channel.send(msg);
+        // 1-to-1, same thread
+        SubscribableChannel channel = new DirectChannel();
 
         // somewhere else....
-        Message<?> msg2 = channel.receive();
-        log.debug(msg2.toString());
+        channel.subscribe(message -> log.debug(message.toString()));
 
-
-
+        channel.send(msg);
 
 //        SpringApplication.run(Application.class, args);
     }

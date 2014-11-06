@@ -15,7 +15,7 @@
     </int:inbound-channel-adapter>
 
 
-    <int:object-to-json-transformer input-channel="routingChannel" output-channel="stringChannel"/>
+    <int:transformer input-channel="routingChannel" ref="someService" />
 
 
     <int:service-activator input-channel="stringChannel" ref="someService"

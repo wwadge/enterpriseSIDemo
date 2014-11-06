@@ -1,6 +1,8 @@
 package demo;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.integration.annotation.Header;
+import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
@@ -24,5 +26,10 @@ public class SomeService {
 
     public List<String> foo(){
         return Arrays.asList("bar", "foo");
+    }
+
+    @Transformer
+    String generateOrder(String productId, @Header("customerName") String customer) {
+        return "meh";
     }
 }

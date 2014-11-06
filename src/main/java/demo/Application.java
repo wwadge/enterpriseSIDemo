@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.ExecutorChannel;
+import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.SubscribableChannel;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageBuilder;
-
-import java.util.concurrent.Executors;
 
 @Configuration
 @ComponentScan
@@ -25,14 +24,23 @@ public class Application {
 
 
         // 1-to-n, same thread
-        SubscribableChannel channel = new ExecutorChannel(Executors.newSingleThreadExecutor());
+        PublishSubscribeChannel channel = new PublishSubscribeChannel();
 
         // somewhere else....
-        channel.subscribe(message -> log.debug(Thread.currentThread() + " : " + message.toString()));
-        channel.subscribe(message -> log.debug(Thread.currentThread() + ": Hey there, I'm also called"));
+        channel.subscribe(message -> log.debug(message.toString()));
+        channel.subscribe(message -> log.debug("Hey there, I'm also called"));
 
-        log.debug("Sender thread ID : " + Thread.currentThread());
+        channel.addInterceptor(new ChannelInterceptorAdapter() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                log.debug("About to send");
+                return super.preSend(message, channel);
+            }
+        });
+
         channel.send(msg);
+
+
 
 //        SpringApplication.run(Application.class, args);
     }

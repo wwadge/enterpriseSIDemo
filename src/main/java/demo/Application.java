@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
@@ -22,11 +22,12 @@ public class Application {
         log.debug(msg.toString());
 
 
-        // 1-to-1, same thread
-        SubscribableChannel channel = new DirectChannel();
+        // 1-to-n, same thread
+        SubscribableChannel channel = new PublishSubscribeChannel();
 
         // somewhere else....
         channel.subscribe(message -> log.debug(message.toString()));
+        channel.subscribe(message -> log.debug("Hey there, I'm also called"));
 
         channel.send(msg);
 

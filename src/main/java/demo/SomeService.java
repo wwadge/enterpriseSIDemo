@@ -1,13 +1,8 @@
 package demo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.integration.annotation.Header;
-import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by wwadge on 06/11/14.
@@ -20,16 +15,4 @@ public class SomeService {
         log.info("Invoked String via Spring integration : "+msg.toString());
     }
 
-    public void runInteger(Message<?> msg){
-        log.info("Invoked Integer via Spring integration : "+msg.toString());
-    }
-
-    public List<String> foo(){
-        return Arrays.asList("bar", "foo");
-    }
-
-    @Transformer
-    String generateOrder(String productId, @Header("customerName") String customer) {
-        return "meh";
-    }
 }

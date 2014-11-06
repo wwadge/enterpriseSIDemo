@@ -10,19 +10,14 @@
                   http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
 
-    <int:inbound-channel-adapter ref="someService" method="foo" channel="routingChannel">
-        <int:poller fixed-rate="2000"/>
-    </int:inbound-channel-adapter>
 
-
-    <int:transformer input-channel="routingChannel" ref="someService" />
-
+    <int:gateway
+                 service-interface="demo.SIGateway"
+                 default-request-channel="stringChannel"
+                 />
 
     <int:service-activator input-channel="stringChannel" ref="someService"
                            method="runString">
     </int:service-activator>
 
-    <int:service-activator input-channel="integerChannel" ref="someService"
-                           method="runInteger">
-    </int:service-activator>
 </beans:beans>

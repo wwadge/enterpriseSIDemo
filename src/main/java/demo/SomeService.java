@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 public class SomeService {
 
     public void runString(Message<?> msg){
-        log.info("Invoked String via Spring integration : "+msg.toString());
+        log.info("Trying..");
+        throw new RuntimeException("foo");
     }
 
 }

@@ -1,22 +1,21 @@
 package demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.support.GenericMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by wwadge on 06/11/14.
  */
 @Component
+@Slf4j
 public class SomeService {
 
-    @Autowired
-    @Qualifier("exampleChannel")
-    MessageChannel channel;
+    public void run(Message<?> msg){
+        log.info("Invoked via Spring integration : "+msg.toString());
+    }
 
-    public void run(){
-        channel.send(new GenericMessage<>("5"));
+    public String foo(){
+        return "Hey there";
     }
 }

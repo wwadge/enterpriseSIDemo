@@ -10,14 +10,21 @@
                   http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
 
-    <int:inbound-channel-adapter channel="exampleChannel" expression="1+1">
+    <int:inbound-channel-adapter ref="someService" method="foo" channel="routingChannel">
         <int:poller fixed-rate="2000"/>
     </int:inbound-channel-adapter>
 
 
+    <int:payload-type-router input-channel="routingChannel">
+        <int:mapping type="java.lang.String" channel="stringChannel" />
+        <int:mapping type="java.lang.Integer" channel="integerChannel" />
+    </int:payload-type-router>
 
-    <int:service-activator input-channel="exampleChannel" ref="someService"
-                           method="run">
+    <int:service-activator input-channel="stringChannel" ref="someService"
+                           method="runString">
     </int:service-activator>
 
+    <int:service-activator input-channel="integerChannel" ref="someService"
+                           method="runInteger">
+    </int:service-activator>
 </beans:beans>

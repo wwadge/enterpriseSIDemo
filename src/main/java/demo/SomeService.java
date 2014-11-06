@@ -11,11 +11,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SomeService {
 
-    public void run(Message<?> msg){
-        log.info("Invoked via Spring integration : "+msg.toString());
+    public void runString(Message<?> msg){
+        log.info("Invoked String via Spring integration : "+msg.toString());
     }
 
-    public String foo(){
-        return "Hey there";
+    public void runInteger(Message<?> msg){
+        log.info("Invoked Integer via Spring integration : "+msg.toString());
+    }
+
+    public Integer foo(){
+        return 1;
     }
 }

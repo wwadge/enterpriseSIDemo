@@ -15,10 +15,12 @@
     </int:inbound-channel-adapter>
 
 
-    <int:payload-type-router input-channel="routingChannel">
-        <int:mapping type="java.lang.String" channel="stringChannel" />
-        <int:mapping type="java.lang.Integer" channel="integerChannel" />
-    </int:payload-type-router>
+    <!-- Just an example -->
+    <int:router input-channel="routingChannel" expression="payload.paymentType">
+        <int:mapping value="CASH" channel="cashPaymentChannel"/>
+        <int:mapping value="CREDIT" channel="authorizePaymentChannel"/>
+        <int:mapping value="DEBIT" channel="authorizePaymentChannel"/>
+    </int:router>
 
     <int:service-activator input-channel="stringChannel" ref="someService"
                            method="runString">

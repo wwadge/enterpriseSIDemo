@@ -13,14 +13,8 @@
 
     <int:gateway
                  service-interface="demo.SIGateway"
-                 default-request-channel="stringChannel"
+
                  />
 
-    <int:service-activator input-channel="stringChannel" ref="someService"
-                           method="runString">
-        <int:request-handler-advice-chain>
-            <beans:bean class="org.springframework.integration.handler.advice.RequestHandlerRetryAdvice"/>
-        </int:request-handler-advice-chain>
-    </int:service-activator>
 
 </beans:beans>

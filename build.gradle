@@ -23,6 +23,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    maven { url "http://repo.spring.io/libs-milestone" }
     mavenCentral()
 }
 
@@ -30,7 +31,8 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-integration")
     compile("org.projectlombok:lombok:1.14.8")
-    compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
+    compile("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
+    compile("org.springframework.integration:spring-integration-java-dsl:1.0.0.RC1")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
 }
